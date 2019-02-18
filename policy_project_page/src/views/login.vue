@@ -6,27 +6,79 @@
 				<p class="p1">登录</p>
 			</div>
 			<!-- 输入框 -->
-			<div class="lgD">
-				<img src="assets/logo.png" width="20" height="20" alt="" />
-				<input type="text" placeholder="输入用户名" />
-			</div>
-			<div class="lgD">
-				<img src="img/logPwd.png" width="20" height="20" alt="" />
-				<input type="text" placeholder="输入用户密码" />
-			</div>
-			<div class="logC">
-				<a><button @click="login">登 录</button></a>
-			</div>
+			<i-form ref="formLogin" :model="formLogin" :rules="ruleLogin">
+				<div class="lgD">
+					<FormItem prop="user">
+						<i-input placeholder="输入用户名" v-model="formLogin.user" style="width: 100%;" size="large">
+							<Icon type="ios-contact" slot="prefix" size="30" />
+						</i-input>
+					</FormItem>
+				</div>
+				<div class="lgD">
+					<FormItem prop="password">
+						<i-input placeholder="输入用户密码" type="password" v-model="formLogin.password" style="width: 100%;" size="large">
+							<Icon type="md-lock" slot="prefix" size="30" />
+						</i-input>
+					</FormItem>
+				</div>
+				<div class="logC">
+					<FormItem>
+						<a><button @click="login('formLogin')">登 录</button></a>
+						<span id="error" hidden="hidden" style="color: red;">用户名或密码错误，请重新输入</span>
+					</FormItem>
+				</div>
+			</i-form>
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+		data() {
+			const validateUser = (rele, value, callback) => {
+				if (value === '') {
+					callback(new Error('请输入用户名！'));
+				} else {
+					callback();
+				}
+			};
+			const validatePass = (rele, value, callback) => {
+				if (value === '') {
+					callback(new Error('请输入用户密码！'));
+				} else {
+					callback();
+				}
+			}
+			return {
+				user: '',
+
+				formLogin: {
+					user: '',
+					password: ''
+				},
+				ruleLogin: {
+					user: [{
+						validator: validateUser,
+						trigger: 'blur'
+					}],
+					password: [{
+						validator: validatePass,
+						trigger: 'blur'
+					}]
+				}
+			};
+		},
 		methods: {
-			login() {
-				// 假设登陆成功，则跳转到 index 组件
-				this.$router.replace('/index');
+			login(values) {
+				this.$refs[values].validate((valid) => {
+					if(valid) {
+						if(this.formLogin.user !== 'admin' || this.formLogin.password !== '123456') {
+							document.getElementById('error').hidden = '';
+						}else {
+							document.getElementById('error').hidden = 'hidden';
+						}
+					}
+				})
 			}
 		}
 	}
@@ -73,7 +125,7 @@
 	.logC a button {
 		width: 100%;
 		height: 45px;
-		background-color: #ee7700;
+		background-color: #138FEF;
 		border: none;
 		color: white;
 		font-size: 18px;
@@ -88,23 +140,11 @@
 
 	#wrap .logGet .logD.logDtip {
 		width: 86%;
-		border-bottom: 1px solid #ee7700;
+		border-bottom: 1px solid #138FEF;
 		margin-bottom: 60px;
 		margin-top: 0px;
 		margin-right: auto;
 		margin-left: auto;
-	}
-
-	.logGet .lgD img {
-		position: absolute;
-		top: 12px;
-		left: 8px;
-	}
-
-	.logGet .lgD input {
-		width: 100%;
-		height: 42px;
-		text-indent: 2.5rem;
 	}
 
 	#wrap .logGet .lgD {
