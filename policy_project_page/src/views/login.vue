@@ -86,7 +86,7 @@
 
 <style>
 	body {
-		background-image: url('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1584094198,1651107084&fm=11&gp=0.jpg');
+		background-image: url('http://photo.16pic.com/00/34/29/16pic_3429950_b.jpg');
 		background-size: 100%;
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -189,5 +189,15 @@
 		height: 60px;
 		width: 40%;
 		text-align: center;
+	}
+	.logGet{
+		/* 对win IE设置半透明滤镜效果,代表该对象00%半透明，火狐浏览器不认 */
+		filter:alpha(Opacity=90);
+		/* 对mozilla firefox火狐浏览器实现半透明，win IE不认此属性，-moz-opacity:0.5相当于设置半透明为50% */
+		-moz-opacity:0.9;
+		/* 对除IE外所有浏览器支持包括谷歌，放最后主要针对谷歌浏览器，opacity: 0.5;表示设置50%半透明 */
+		opacity: 0.9;
+		
+		border-radius: 6px;
 	}
 </style>
